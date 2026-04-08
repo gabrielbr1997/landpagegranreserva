@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva Premium | Experiência Exclusiva</title>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Paleta de Cores Premium */
+            --bg-light: #F8F9FA;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --accent: #F59E0B; /* Laranja/Dourado Luxo */
+            --accent-hover: #D97706;
+            --white: #FFFFFF;
+            --dark-footer: #111827;
+            
+            /* Efeitos e Sombras */
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. HEADER (STICKY) --- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+
+        .btn-whatsapp {
+            background-color: var(--accent);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.39);
+        }
+
+        .btn-whatsapp:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* --- 2. HERO SECTION --- */
+        .hero {
+            position: relative;
+            height: 85vh;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80'); /* Fallback caso o blob expire */
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Glassmorphism Search Bar */
+        .search-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: var(--shadow-lg);
+            position: absolute;
+            bottom: -50px;
+        }
+
+        .search-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            border-right: 1px solid rgba(255,255,255,0.2);
+            padding-right: 10px;
+        }
+
+        .search-group:last-child {
+            border-right: none;
+        }
+
+        .search-group label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #eee;
+        }
+
+        .search-group select, .search-group input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-group select option {
+            background: var(--text-dark);
+        }
+
+        .btn-search {
+            background: var(--accent);
+            border: none;
+            color: white;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .btn-search:hover {
+            background: var(--accent-hover);
+            transform: scale(1.02);
+        }
+
+        /* --- 3. GALERIA / COMENTÁRIOS --- */
+        .gallery-section {
+            padding: 120px 5% 80px;
+            background-color: var(--bg-light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+        }
+
+        .grid-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 240px;
+        }
+
+        .card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img-wrapper img {
+            transform: scale(1.1);
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--white);
+            color: var(--text-dark);
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-price {
+            color: var(--accent);
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .divider {
+            height: 1px;
+            background: #E2E8F0;
+            margin: 15px 0;
+        }
+
+        .amenities {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .amenity-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .amenity-item svg {
+            width: 20px;
+            height: 20px;
+            margin-bottom: 5px;
+            fill: var(--accent);
+        }
+
+        .btn-details {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-light);
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            color: var(--text-dark);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-details:hover {
+            background: var(--text-dark);
+            color: var(--white);
+        }
+
+        /* --- 4. FOOTER --- */
+        footer {
+            background: var(--dark-footer);
+            color: var(--white);
+            padding: 80px 5% 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 50px;
+        }
+
+        .footer-info p {
+            color: #94A3B8;
+            margin-top: 20px;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: #94A3B8;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #1F2937;
+            color: #64748B;
+            font-size: 0.8rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .search-container {
+                grid-template-columns: 1fr 1fr;
+                bottom: -100px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            header nav { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .search-container {
+                grid-template-columns: 1fr;
+                position: relative;
+                bottom: 0;
+                margin-top: 20px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Header -->
+    <header id="main-header">
+        <a href="#" class="logo">GRAN RESERVA<span> MARAGOGI 18</span></a>
+        
+        <nav>
+            <ul>
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Galeria</a></li>
+                <li><a href="#">Comodidades</a></li>
+                <li><a href="#">Localização</a></li>
+            </ul>
+        </nav>
+
+        <a href="https://wa.me/seunumeroaqui" class="btn-whatsapp">
+            <svg style="width:18px;height:18px" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.5 2 2 6.5 2 12.04C2 13.81 2.46 15.5 3.33 17L2.05 21.78L7 20.5C8.39 21.31 10 21.75 11.63 21.75C11.77 21.75 11.9 21.75 12.04 21.75C17.57 21.75 22.07 17.26 22.07 11.73C22.07 9.04 21.03 6.54 19.14 4.65C17.25 2.76 14.75 2.03 12.04 2M12.04 3.63C14.33 3.63 16.46 4.53 18.06 6.13C19.67 7.74 20.57 9.87 20.57 12.16C20.57 16.84 16.75 20.66 12.07 20.66C12 20.66 11.83 20.66 11.7 20.65C10.27 20.65 8.88 20.27 7.66 19.54L7.38 19.37L4.41 20.15L5.2 17.29L5 16.97C4.21 15.72 3.8 14.28 3.8 12.8C3.8 8.27 7.5 4.57 12.03 4.57C12.03 4.57 12.03 3.63 12.04 3.63M8.3 7.64C8.1 7.64 7.78 7.71 7.5 8C7.23 8.3 6.45 9.06 6.45 10.6C6.45 12.13 7.57 13.61 7.72 13.82C7.87 14.03 9.91 17.34 13.1 18.59C15.75 19.63 16.29 19.42 16.86 19.37C17.43 19.32 18.69 18.63 18.95 17.9C19.2 17.17 19.2 16.56 19.13 16.43C19.05 16.3 18.85 16.23 18.55 16.08C18.24 15.93 16.73 15.19 16.45 15.08C16.17 14.98 15.96 14.93 15.76 15.24C15.56 15.54 15 16.2 14.85 16.37C14.7 16.55 14.55 16.58 14.24 16.43C13.94 16.28 12.97 15.96 11.82 14.93C10.92 14.13 10.32 13.14 10.14 12.84C9.96 12.53 10.12 12.37 10.27 12.22C10.41 12.08 10.58 11.85 10.74 11.66C10.89 11.47 10.94 11.34 11.04 11.14C11.14 10.94 11.09 10.76 11.02 10.61C10.94 10.45 10.3 8.9 10.04 8.27C9.78 7.64 9.5 7.74 9.3 7.74C9.1 7.74 8.87 7.73 8.64 7.73C8.4 7.73 8.3 7.64 8.3 7.64Z" /></svg>
+            Falar com Anfitrião
+        </a>
+    </header>
+
+    <!-- 2. Hero Section -->
+    <section class="hero">
+        <h1>Saiba mais sobre a nossa casa</h1>
+        
+        <div class="search-container">
+            <div class="search-group">
+                <label>Finalidade</label>
+                <select>
+                    <option>Alugar</option>
+                    <option>Temporada</option>
+                </select>
+            </div>
+            <div class="search-group">
+                <label>Tipo</label>
+                <select>
+                    <option>Casa Luxo</option>
+                    <option>Bangalô</option>
+                </select>
+            </div>
+            <div class="search-group">
+                <label>Localização</label>
+                <input type="text" placeholder="Maragogi, AL" readonly>
+            </div>
+            <button class="btn-search">Buscar Agora</button>
+        </div>
+    </section>
+
+    <!-- 3. Galeria / Comentários em Destaque -->
+    <section class="gallery-section">
+        <div class="section-header">
+            <h2>Destaques da Residência</h2>
+            <p>Explore cada detalhe da melhor casa de veraneio da região.</p>
+        </div>
+
+        <div class="grid-gallery" id="property-grid">
+            <!-- Os cards serão repetidos aqui via HTML para garantir o grid de 6 -->
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <span class="badge">Local da Casa</span>
+                    <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80" alt="Vista Externa">
+                </div>
+                <div class="card-content">
+                    <div class="card-price">R$ 1.200 / diária</div>
+                    <h3 class="card-title">Suíte Master Vista Mar</h3>
+                    <div class="divider"></div>
+                    <div class="amenities">
+                        <div class="amenity-item">🛌 <span>4 Qts</span></div>
+                        <div class="amenity-item">🚿 <span>3 Ban</span></div>
+                        <div class="amenity-item">🚗 <span>2 Vag</span></div>
+                        <div class="amenity-item">🏊 <span>Piscina</span></div>
+                        <div class="amenity-item">🔥 <span>Churr.</span></div>
+                    </div>
+                    <button class="btn-details">Ver Detalhes</button>
+                </div>
+            </div>
+            <!-- Card 2 (Cópia para preencher o grid) -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <span class="badge">Local da Casa</span>
+                    <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=600&q=80" alt="Sala de Estar">
+                </div>
+                <div class="card-content">
+                    <div class="card-price">R$ 1.200 / diária</div>
+                    <h3 class="card-title">Living Gourmet Moderno</h3>
+                    <div class="divider"></div>
+                    <div class="amenities">
+                        <div class="amenity-item">🛌 <span>4 Qts</span></div>
+                        <div class="amenity-item">🚿 <span>3 Ban</span></div>
+                        <div class="amenity-item">🚗 <span>2 Vag</span></div>
+                        <div class="amenity-item">🏊 <span>Piscina</span></div>
+                        <div class="amenity-item">🔥 <span>Churr.</span></div>
+                    </div>
+                    <button class="btn-details">Ver Detalhes</button>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <span class="badge">Local da Casa</span>
+                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80" alt="Piscina">
+                </div>
+                <div class="card-content">
+                    <div class="card-price">R$ 1.200 / diária</div>
+                    <h3 class="card-title">Piscina com Borda Infinita</h3>
+                    <div class="divider"></div>
+                    <div class="amenities">
+                        <div class="amenity-item">🛌 <span>4 Qts</span></div>
+                        <div class="amenity-item)🚿 <span>3 Ban</span></div>
+                        <div class="amenity-item">🚗 <span>2 Vag</span></div>
+                        <div class="amenity-item">🏊 <span>Piscina</span></div>
+                        <div class="amenity-item">🔥 <span>Churr.</span></div>
+                    </div>
+                    <button class="btn-details">Ver Detalhes</button>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <span class="badge">Local da Casa</span>
+                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=600&q=80" alt="Fachada Noite">
+                </div>
+                <div class="card-content">
+                    <div class="card-price">R$ 1.200 / diária</div>
+                    <h3 class="card-title">Fachada Noturna LED</h3>
+                    <div class="divider"></div>
+                    <div class="amenities">
+                        <div class="amenity-item">🛌 <span>4 Qts</span></div>
+                        <div class="amenity-item">🚿 <span>3 Ban</span></div>
+                        <div class="amenity-item">🚗 <span>2 Vag</span></div>
+                        <div class="amenity-item">🏊 <span>Piscina</span></div>
+                        <div class="amenity-item">🔥 <span>Churr.</span></div>
+                    </div>
+                    <button class="btn-details">Ver Detalhes</button>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <span class="badge">Local da Casa</span>
+                    <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80" alt="Cozinha">
+                </div>
+                <div class="card-content">
+                    <div class="card-price">R$ 1.200 / diária</div>
+                    <h3 class="card-title">Cozinha de Chef Equipada</h3>
+                    <div class="divider"></div>
+                    <div class="amenities">
+                        <div class="amenity-item">🛌 <span>4 Qts</span></div>
+                        <div class="amenity-item">🚿 <span>3 Ban</span></div>
+                        <div class="amenity-item">🚗 <span>2 Vag</span></div>
+                        <div class="amenity-item">🏊 <span>Piscina</span></div>
+                        <div class="amenity-item">🔥 <span>Churr.</span></div>
+                    </div>
+                    <button class="btn-details">Ver Detalhes</button>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <span class="badge">Local da Casa</span>
+                    <img src="https://images.unsplash.com/photo-1512915922686-57c11f9ad6b3?auto=format&fit=crop&w=600&q=80" alt="Deck">
+                </div>
+                <div class="card-content">
+                    <div class="card-price">R$ 1.200 / diária</div>
+                    <h3 class="card-title">Deck para Meditação</h3>
+                    <div class="divider"></div>
+                    <div class="amenities">
+                        <div class="amenity-item">🛌 <span>4 Qts</span></div>
+                        <div class="amenity-item">🚿 <span>3 Ban</span></div>
+                        <div class="amenity-item">🚗 <span>2 Vag</span></div>
+                        <div class="amenity-item">🏊 <span>Piscina</span></div>
+                        <div class="amenity-item">🔥 <span>Churr.</span></div>
+                    </div>
+                    <button class="btn-details">Ver Detalhes</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Rodapé Profissional -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-info">
+                <a href="#" class="logo" style="color: white;">GRAN<span>RESERVA MARAGOGI 18</span></a>
+                <p>Oferecemos a melhor experiência de hospedagem em Maragogi. Luxo, conforto e pé na areia para você e sua família.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="#">Sobre a Casa</a></li>
+                    <li><a href="#">Galeria de Fotos</a></li>
+                    <li><a href="#">Disponibilidade</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contatos</h4>
+                <ul>
+                    <li><a href="#">(61) 98108-1874</a></li>
+                    <li><a href="#">gabrielbrandao228@gmail.com</a></li>
+                    <li><a href="#">Instagram @granreservamaragogi18</a></li>
+                    <li><a href="#">Airbnb Official</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Endereço</h4>
+                <ul>
+                    <li>Praia de Antunes, s/n</li>
+                    <li>Maragogi - AL</li>
+                    <li>CEP: 57955-000</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Gran Reserva Maragogi 18. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script>
+        // Efeito de mudar o header ao rolar
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.style.padding = '0.5rem 5%';
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            } else {
+                header.style.padding = '1rem 5%';
+                header.style.background = '#FFFFFF';
+            }
+        });
+
+        // Simulação de busca
+        document.querySelector('.btn-search').addEventListener('click', function() {
+            this.innerHTML = "Buscando...";
+            setTimeout(() => {
+                alert("Verificando disponibilidade em nosso calendário 2026...");
+                this.innerHTML = "Buscar Agora";
+            }, 1000);
+        });
+
+        // Interação nos botões de detalhes
+        const detailsBtns = document.querySelectorAll('.btn-details');
+        detailsBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert("Você será redirecionado para a página oficial do Airbnb para concluir sua reserva com segurança.");
+            });
+        });
+    </script>
+</body>
+</html>
