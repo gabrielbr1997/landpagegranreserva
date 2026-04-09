@@ -403,6 +403,7 @@
 
         .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
         .legend-dot.available { background: #22c55e; }
+        .legend-dot.selected { background: var(--accent); }
 
         .custom-calendar {
             width: 100%;
@@ -511,15 +512,29 @@
         .cal-day.empty { background: #fafbfc; }
 
         .cal-day.today .day-number {
-            background: var(--accent);
-            color: #fff;
+            background: #e2e8f0;
+            color: var(--text-dark);
             border-radius: 50%;
         }
 
         .cal-day.occupied { background: #fff5f5; }
         .cal-day.occupied .day-number { color: #ef4444; }
         .cal-day.past { background: #f8fafc; opacity: 0.5; }
-        .cal-day.available:hover { background: #f0fdf4; }
+        
+        /* ESTILO PARA DATA SELECIONADA PELO USUÁRIO */
+        .cal-day.available.selected {
+            background-color: var(--accent) !important;
+            color: white !important;
+        }
+        .cal-day.available.selected .day-number {
+            color: white !important;
+            font-weight: 800;
+        }
+        .cal-day.available.selected .day-available {
+            background: white;
+        }
+
+        .cal-day.available:hover:not(.selected) { background: #f0fdf4; }
 
         .day-number {
             font-size: 0.9rem;
@@ -574,6 +589,40 @@
             margin-top: 8px;
             font-size: 0.75rem;
             color: #94a3b8;
+        }
+
+        /* WHATSAPP BOTÃO FLUTUANTE DE RESERVA */
+        #whatsapp-booking-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            padding: 16px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none; /* Mantém o JS controlando a exibição */
+            z-index: 10002;
+            transition: var(--transition);
+            /* Mantive a animação de entrada que você já tinha */
+            animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid rgba(255,255,255,0.2);
+            white-space: nowrap; /* Garante que o texto fique em uma linha só */
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        #whatsapp-booking-btn:hover {
+            /* Ajustei para o scale não conflitar com a animação */
+            transform: scale(1.05);
+            background: #20ba5a;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
         /* --- LOCALIZAÇÃO --- */
@@ -646,7 +695,6 @@
 
         /* RESPONSIVIDADE MOBILE */
         @media (max-width: 768px) {
-
             header { padding: 1rem 5%; }
             header nav { display: none; }
             .logo { font-size: 1.1rem; }
@@ -656,6 +704,15 @@
                 background-attachment: scroll;
                 background-position: center center;
                 padding: 0 6%;
+            }
+
+            #whatsapp-booking-btn {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                text-align: center;
+                padding: 14px 20px;
+                font-size: 0.85rem;
             }
 
             .hero-content h1 { font-size: 1.9rem; margin-bottom: 1rem; }
@@ -807,13 +864,17 @@
         <div class="section-title">
             <h2>Disponibilidade</h2>
             <div class="underline"></div>
-            <p>Confira as datas disponíveis em tempo real.</p>
+            <p>Clique nas datas desejadas para consultar valores.</p>
         </div>
 
         <div class="calendar-legend">
             <div class="legend-item">
                 <div class="legend-dot available"></div>
-                Disponível
+                Livre
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot selected"></div>
+                Sua escolha
             </div>
             <div class="legend-item">
                 <span style="font-size:0.9rem;">🔒</span>
@@ -889,6 +950,9 @@
         <p>&copy; 2026 Gran Reserva Maragogi. Localizada com amor em Alagoas, Brasil.</p>
     </footer>
 
+    <!-- O texto não muda mais via JS, apenas o link (href) -->
+    <a href="#" id="whatsapp-booking-btn" target="_blank">💬 Conversar com Gran Reserva</a>
+
     <div class="gallery-modal" id="galleryModal">
         <button class="modal-close" onclick="closeGallery()" aria-label="Fechar galeria">&times;</button>
         <p class="modal-title" id="modalTitle">Área <span>Externa</span></p>
@@ -907,49 +971,29 @@
     </div>
 
     <script>
+        // --- GALERIA ---
         const galleries = {
             externa: {
                 title: 'Área <span>Externa</span>',
                 images: [
-                    'Area Externa/externa01.jpeg',
-                    'Area Externa/externa02.jpeg',
-                    'Area Externa/externa03.jpeg',
-                    'Area Externa/externa04.jpeg',
-                    'Area Externa/externa05.jpeg',
-                    'Area Externa/externa06.jpeg',
-                    'Area Externa/externa07.jpeg',
-                    'Area Externa/externa08.jpeg'
+                    'Area Externa/externa01.jpeg', 'Area Externa/externa02.jpeg', 'Area Externa/externa03.jpeg',
+                    'Area Externa/externa04.jpeg', 'Area Externa/externa05.jpeg', 'Area Externa/externa06.jpeg',
+                    'Area Externa/externa07.jpeg', 'Area Externa/externa08.jpeg'
                 ]
             },
-            sala: {
-                title: 'Sala de <span>Estar</span>',
-                images: ['sala.jpeg']
-            },
-            lavanderia: {
-                title: '<span>Lavanderia</span>',
-                images: ['lavanderia.jpeg', 'Lavanderia/lavanderia01.jpeg']
-            },
+            sala: { title: 'Sala de <span>Estar</span>', images: ['sala.jpeg'] },
+            lavanderia: { title: '<span>Lavanderia</span>', images: ['lavanderia.jpeg', 'Lavanderia/lavanderia01.jpeg'] },
             quartos: {
                 title: '<span>Quartos</span>',
-                images: [
-                    'Quartos/quarto03.jpeg',
-                    'Quartos/quarto01.jpeg',
-                    'Quartos/quarto02.jpeg',
-                    'Quartos/quarto04.jpeg'
-                ]
+                images: ['Quartos/quarto03.jpeg', 'Quartos/quarto01.jpeg', 'Quartos/quarto02.jpeg', 'Quartos/quarto04.jpeg']
             },
             banheiros: {
                 title: '<span>Banheiros</span>',
-                images: [
-                    'Banheiros/banheiro01.jpeg',
-                    'Banheiros/banheiro02.jpeg',
-                    'Banheiros/banheiro03.jpeg',
-                    'Banheiros/banheiro04.jpeg'
-                ]
+                images: ['Banheiros/banheiro01.jpeg', 'Banheiros/banheiro02.jpeg', 'Banheiros/banheiro03.jpeg', 'Banheiros/banheiro04.jpeg']
             }
         };
 
-        let currentImages = [], currentIndex = 0, touchStartX = 0;
+        let currentImages = [], currentIndex = 0;
 
         function openGallery(room) {
             const data = galleries[room];
@@ -1016,14 +1060,15 @@
             });
         }
 
-        // --- SCRIPT DO CALENDÁRIO ATUALIZADO ---
+        // --- SCRIPT DO CALENDÁRIO COM SELEÇÃO ---
 
         const WORKER_URL = 'https://royal-night-8280.gabrielbrandao228.workers.dev';
         let occupiedDates = new Set();
+        let selectedDates = new Set();
         let calYear, calMonth;
-        const today = new Date();
-        calYear  = today.getFullYear();
-        calMonth = today.getMonth();
+        const todayNow = new Date();
+        calYear  = todayNow.getFullYear();
+        calMonth = todayNow.getMonth();
 
         const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
                             'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -1033,7 +1078,6 @@
             statusEl.textContent = 'Sincronizando...';
 
             try {
-                // Força busca de dados novos do Worker
                 const forcedUrl = `${WORKER_URL}?nocache=${Date.now()}`;
                 const res = await fetch(forcedUrl);
                 const text = await res.text();
@@ -1050,10 +1094,8 @@
                         if (startMatch && endMatch) {
                             let sStr = startMatch[1];
                             let eStr = endMatch[1];
-                            
                             let s = new Date(sStr.substring(0,4), sStr.substring(4,6)-1, sStr.substring(6,8));
                             let e = new Date(eStr.substring(0,4), eStr.substring(4,6)-1, eStr.substring(6,8));
-                            
                             while (s < e) {
                                 occupiedDates.add(s.toDateString());
                                 s.setDate(s.getDate() + 1);
@@ -1091,15 +1133,21 @@
                 const date = new Date(calYear, calMonth, d);
                 date.setHours(0,0,0,0);
                 
+                const dateStr = date.toDateString();
                 const isToday = date.getTime() === realToday.getTime();
-                const isOccupied = occupiedDates.has(date.toDateString());
+                const isOccupied = occupiedDates.has(dateStr);
                 const isPast = date < realToday;
+                const isSelected = selectedDates.has(dateStr);
 
                 const cell = document.createElement('div');
+                cell.className = `cal-day ${isToday ? 'today' : ''} ${isOccupied ? 'occupied' : ''} ${isPast && !isToday ? 'past' : 'available'} ${isSelected ? 'selected' : ''}`;
                 
-                // Os dias ocupados (Airbnb/Booking) ficam rosa. Dias passados ficam cinza (past).
-                cell.className = `cal-day ${isToday ? 'today' : ''} ${isOccupied ? 'occupied' : ''} ${isPast && !isToday ? 'past' : 'available'}`;
-                
+                // Habilitar clique apenas em dias disponíveis e futuros
+                if (!isOccupied && (!isPast || isToday)) {
+                    cell.onclick = () => toggleDateSelection(dateStr);
+                    cell.style.cursor = 'pointer';
+                }
+
                 const num = document.createElement('div');
                 num.className = 'day-number';
                 num.textContent = d;
@@ -1115,6 +1163,50 @@
             }
         }
 
+        function toggleDateSelection(dateStr) {
+            if (selectedDates.has(dateStr)) {
+                selectedDates.delete(dateStr);
+            } else {
+                selectedDates.add(dateStr);
+            }
+            renderCalendar();
+            updateWhatsAppButton();
+        }
+
+        function updateWhatsAppButton() {
+            const btn = document.getElementById('whatsapp-booking-btn');
+    
+            // Se não houver datas selecionadas, esconde o botão
+            if (selectedDates.size === 0) {
+                btn.style.display = 'none';
+                return;
+            }
+
+            // 1. Organiza e formata as datas para a MENSAGEM
+            const sortedDates = Array.from(selectedDates)
+                .map(d => new Date(d))
+                .sort((a, b) => a - b)
+                .map(d => d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }))
+                .join(', ');
+
+            const phone = "5561981081874";
+            const message = encodeURIComponent(`Olá! Gostaria de falar sobre a disponibilidade da Gran Reserva para as datas: ${sortedDates}`);
+            
+            // 2. Atualiza o link do WhatsApp
+            const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
+            
+            // 3. Aplica ao botão
+            btn.href = whatsappUrl;
+            btn.innerHTML = `💬 Conversar com Gran Reserva`;
+            btn.style.display = 'block';
+
+            // 4. Correção: Forçar a abertura do link caso o href falhe em alguns navegadores mobile
+            btn.onclick = function(e) {
+                window.open(whatsappUrl, '_blank');
+                return false; // Previne o comportamento padrão para evitar conflitos
+            };
+        }
+
         function changeMonth(dir) {
             calMonth += dir;
             if (calMonth > 11) { calMonth = 0; calYear++; }
@@ -1125,6 +1217,7 @@
         fetchOccupied();
         setInterval(fetchOccupied, 15 * 60 * 1000);
 
+        // Scroll suave
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
